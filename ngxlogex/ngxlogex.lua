@@ -43,7 +43,7 @@ local function logex(level, ...)
 		end
 	end
 
-	return ngx_log(level, unpack(args))
+	return ngx_log(level, unpack(args, 1, argc))
 end
 
 -- ngx.say('ngx ', inspect(ngx))
@@ -110,6 +110,10 @@ function _M.test_logex(chk_called)
 		ngx.log = logex
 		assert.spy(log_tmp).was_called(3)
 	end
+end
+
+function _M.test_logex_nil()
+	ngx.log(ngx.DEBUG, 'hello ', nil, ' world ', nil)
 end
 
 function _M.test_logex_again_timer()

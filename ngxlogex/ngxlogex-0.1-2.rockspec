@@ -1,5 +1,5 @@
 package = "ngxlogex"
-version = "0.1-1"
+version = "0.1-2"
 source = {
    url = "git+https://github.com/z7z8th/rocks",
    tag = "0.1"
