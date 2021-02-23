@@ -1,8 +1,8 @@
 package = "ngxlogex"
-version = "0.1-2"
+version = "0.2-1"
 source = {
    url = "git+https://github.com/z7z8th/rocks",
-   tag = "0.1"
+   tag = "0.2"
 }
 description = {
    summary = "ngx.log extension for openresty",
