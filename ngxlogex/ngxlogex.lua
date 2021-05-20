@@ -6,9 +6,20 @@ local errlog_level = errlog.get_sys_filter_level()
 
 local ngx_log = ngx.log
 
+if ngx.__log then
+	ngx_log(ngx.ERR, 'ngxlogex already loaded, or you are requiring with a different name.')
+	return nil
+end
+
 local _M = {
 	serializers = {
-		table = json.encode
+		table = json.encode,
+		cdata = tostring,
+		userdata = tostring,
+		lightuserdata = tostring,
+		['function'] = tostring,
+		thread = tostring,
+		--TODO: other types?
 	}
 }
 
@@ -39,7 +50,8 @@ local function logex(level, ...)
 		local v = select(i, ...)
 		local ser = _M.serializers[type(v)]
 		if ser then
-			args[i] = ser(v)
+			local out, err = ser(v)  -- json.encode may fail
+			args[i] = out or err
 		end
 	end
 
@@ -48,6 +60,7 @@ end
 
 -- ngx.say('ngx ', inspect(ngx))
 
+ngx.__log = ngx_log
 ngx.log = logex
 _M.logex = logex
 
